@@ -1,4 +1,7 @@
-﻿// Tuples are a lightweight data transfer object
+﻿global using NicksColor = (byte R, byte G, byte B);
+// we can use this syntax to declare a Tuple 
+
+// Tuples are a lightweight data transfer object
 // that can contain multiple values of different types
 
 
@@ -155,6 +158,8 @@ Console.WriteLine($"The whole Tuple: {minAndMaxTuple1}");
 
 // we can also "deconstruct" tuples
 (int firstThing, string secondThing) = (1, "this is the second thing!");
+(int minVal, int maxVal) = GetMinAndMaxWithParamBetter(numbers);
+
 
 // we can put the keyword var out the front
 // this way to infer the type at compile time
@@ -163,6 +168,32 @@ var (firstThing2, secondThing1) = (1, "this is the second thing");
 
 
 
+NicksColor nicksColor = (255, 0, 0);
+
+nicksColor.R = 125;
 
 
+
+// EQUALITY
+
+(int, string, int) tupleA = (123, "hello", 456);
+(int, int) tupleB = (123, 456);
+(float, float) tupleC = (firstNumber: 123, secondNumber: 456);
+(byte, string, float) tupleD = (firsNumber: 123, Name: "hello", SecondNumber: 456);
+(int, int) tupleE = (456, 789);
+(byte, string, float) tupleF = (123, "wolrd", 456);
+(string, string) tupleG = ("hello", "wolrd");
+
+
+
+/*
+ * will not compile!
+ * need to have same number of elements and compile types
+ * cw($"tupleA == tupleB : " {tupleA == tupleB}) // different counts
+ * cw($"tupleA == tupleC : " {tupleA == tupleC}) // different counts
+ * cw($"tupleB == tupleG : " {tupleB == tupleG}) // same counts, incompatible types ,,,,, cant compare int to string ditectly
+ * 
+ * 
+ * 
+ */
 

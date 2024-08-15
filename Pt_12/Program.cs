@@ -192,8 +192,35 @@ nicksColor.R = 125;
  * cw($"tupleA == tupleB : " {tupleA == tupleB}) // different counts
  * cw($"tupleA == tupleC : " {tupleA == tupleC}) // different counts
  * cw($"tupleB == tupleG : " {tupleB == tupleG}) // same counts, incompatible types ,,,,, cant compare int to string ditectly
- * 
- * 
- * 
  */
 
+Console.WriteLine($"tupleA == tupleD : {tupleA == tupleD}");// true : bcuz their values are in fact comparable, doesnt matter if their type is diffe
+                                                            // if their types are different ..bcuz their types are comparable 
+                                                            // a byte can be compare to an int and a float can be compared to an int 
+
+Console.WriteLine($"tupleA == tupleF : {tupleA == tupleF}");// false
+Console.WriteLine($"tupleB == tupleC : {tupleB == tupleC}");// true
+Console.WriteLine($"tupleB == tupleE : {tupleB == tupleE}");// false
+
+// tupleD and tupleC have Names ..we are able to compare the tuples with other tuples that have names and they ended up coming out to be true 
+// just bcuz their values are the same ..... so names are completly disregarded when comparing to Tuple 
+
+// the .Equal method is not supported for this kind of comparison
+// ... all false!
+
+Console.WriteLine($"tupleA.Equals(tupleD) : {tupleA.Equals(tupleD)}");
+Console.WriteLine($"tupleB.Equals(tupleC) : {tupleB.Equals(tupleC)}");
+Console.WriteLine($"tupleA.Equals(tupleF) : {tupleA.Equals(tupleF)}");
+Console.WriteLine($"tupleB.Equals(tupleE) : {tupleB.Equals(tupleE)}");
+
+
+
+
+
+/*
+ * some interesting notes:
+ * - cardinality is required to compile (same number of elements & compatible types)
+ * - the names of the elements are not considered in the comparison 
+ * - the order of the elements IS considered in the comparison
+ * - the types do not need to be the same, but they do need to be comptible 
+ */

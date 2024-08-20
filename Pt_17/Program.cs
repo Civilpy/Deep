@@ -22,6 +22,8 @@
  * 
  */
 
+using System.Threading.Channels;
+
 List<string> rawNumbers = ["1", "2", "3" , "4",  "5"]; // list implment IEnumerable 
 List<int> numbers = new();
 foreach(string rawNumber in rawNumbers)
@@ -128,8 +130,84 @@ Console.WriteLine("After forcing enumeration of LazyNumbersAsStrings");
  * an important thing to know ... when we are calling a LINQ method
  * maybe we are chaining a bunch of them together .. that could be doing alot of work
  * if you are assign it to a variable and you have not done anything with it 
- * that means that variable might still be a function Pointer 
+ * that means that variable might still be a function Pointer ....it might have not 
+ * yet evaluated anything in that point of that time 
+ * 
+ * 
+ * if you dont call ToArray()....ToList()... or use a for Loop to go Iterate over those items 
+ * that means u have not evaluated your LINQ methods yet 
+ * 
  */
+
+
+// this also means you need to be careful if your LINQ is expensive 
+// and you keep re_evaluating it bcuz you did not store the result
+// in a variable!
+
+Console.WriteLine("Press enter to start expensive operation.");
+Console.ReadLine ();
+
+var expensiveToCalculaterr = numbers
+    .Select(number =>
+    {
+        Console.WriteLine($"Transforming {number} to a string");
+        Thread.Sleep(1000);
+        return numbers.ToString();
+    })
+    .ToArray(); // vaghti in ro run mikonim ... in ba faseleye 1 saniye print mishe
+                // va baghiyr be surate ye ja
+                // hala ToArray ro bardar bebin chi mishe 
+
+Console.WriteLine("Before first enumeration of expensive operation...");
+foreach(var numberAsStringg in expensiveToCalculaterr)
+{
+    Console.WriteLine(numberAsStringg);
+}
+Console.WriteLine("After first enumeration of expensive operation...");
+
+Console.WriteLine("Before Second enumeration of expensive operation...");
+foreach (var numberAsStringg in expensiveToCalculaterr)
+{
+    Console.WriteLine(numberAsStringg);
+}
+
+/*
+ * the reason that this happen bcuz on both foreach Line we 
+ * have IEnumerable of strings and like we mentioned
+ * LINQ is giving us what it calls Iterator 
+ * this iterator is just a function pointer
+ * and bcuz it's not been ivaluated it will go have to evaluated twice 
+ * it's not saving the result anywhere 
+ * unless you call something like ToArray...ToList or otherwise materialize 
+ * the collection 
+ */
+
+
+// we can write our own LINQ Method bcuz theyre just Extension methods
+
+var myLinqResult = numbers
+    .FancyLinqMethod(number => number * 2)
+    .ToArray();
+
+foreach(var number in myLinqResult)
+{
+    Console.WriteLine(number);
+}
+
+
+public static class MyLinq
+{
+    public static IEnumerable<T> FancyLinqMethod<T>( // return type IEnumerable of T
+        this IEnumerable<T> source, // takes in an Ienumerable of T 
+        Func<T, T> selector) // takes a type T and out a type T
+    {
+        foreach(T item in source)
+        {
+            Console.WriteLine($"Applying selector to {item}");
+            yield return selector(item);
+        }
+    }
+}
 
 
 

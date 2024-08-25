@@ -101,7 +101,69 @@ void DoSomethingAfterUserPressesEnter(Action callback) // we give it a call back
 DoSomethingAfterUserPressesEnter(AmirAction); // dont use an extra () ... bcuz we are not calling 
                                               // AmirAction before we are going to 
 
+/*
+ * output : 
+ * Hello from Amir!
+ * Hello from Amir!
+ * Press enter for a surprise! 
+ * 
+ * notice that on method above(DoSomethingAfterUserPressesEnter)
+ * we did not call AmirAction again we did not see Hello from Amir!
+ * 3 times and then we go see Press enter for a surprise! 
+ * bcuz we did not call the method on the method above
+ * passed it as a parameter and if we press Enter
+ *  we will finish Console.ReadLine() (in DoSomethingAfterUserPressesEnter mrthod)
+ *  and then call the callBack so we delayed the executionof the method 
+ *  till we hit the Enter and the we see Hello from Amir bcuz we executed the callback
+ 
+ */
+
 // you may want to do this in situations where 
 // you need to constrol what is executed after 
 // a certain event occurs or condition is met
 // - after a file is downloaded 
+// - when a suer clicks a button
+// - when a monitor detects an issue
+
+
+// we can also pass a function as aparameter:
+
+void Calculatee(Func<int, int, int> calculateCallback)
+{
+    Console.WriteLine("Enter the first integer: ");
+    int a = int.Parse(Console.ReadLine());
+
+    Console.WriteLine("Enter the second integer: ");
+    int b = int.Parse(Console.ReadLine());
+
+    int result = calculateCallback(a, b);
+    Console.WriteLine($"the Result is {result}");
+}
+
+Console.WriteLine("Addition Example: ");
+Calculatee(addFunction);
+Console.WriteLine("Subtraction Example: ");
+Calculatee(subtractFunction);
+
+
+// Predicate 
+
+/*
+ * Action is simple
+ * Func is convinient but does not help readability
+ * we have Predicate which is essentially Func<T, bool>     // filtering on result set 
+ *                                                          // like does this thing match 
+ *                                                          // criteria we are interestin in
+ *                                                          
+ * But what if we want out own? Can we get more readability?
+ */
+
+/*
+.
+.
+.
+.
+.
+.
+.
+*/
